@@ -263,3 +263,25 @@ button {
 button:hover {
     opacity: 0.8;
 }
+
+#form-section {
+    padding: 40px 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+}
+
+input, textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+}
