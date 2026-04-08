@@ -250,3 +250,16 @@ footer {
 @media print { 
     body { padding: 0; } .cv-container { box-shadow: none; } 
 }
+
+button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
