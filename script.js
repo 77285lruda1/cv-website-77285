@@ -1,10 +1,11 @@
-
 const themeBtn = document.getElementById("themeBtn");
 const toggleBtn = document.getElementById("toggleBtn");
 const projects = document.getElementById("projects");
 const themeStyle = document.getElementById("theme-style");
 
 let isGreen = true;
+
+projects.style.display = "none";
 
 themeBtn.addEventListener("click", () => {
     if (isGreen) {
@@ -75,3 +76,50 @@ form.addEventListener("submit", function(e) {
         form.reset();
     }
 });
+
+
+// JSON + FETCH
+fetch("data.json")
+.then(response => {
+    if (!response.ok) {
+        throw new Error("Błąd HTTP: " + response.status);
+    }
+    return response.json();
+})
+
+    .then(data => {
+
+        const skillsList = document.getElementById("skills-list");
+        data.skills.forEach(skill => {
+            const li = document.createElement("li");
+            li.textContent = skill;
+            skillsList.appendChild(li);
+        });
+
+        const projectsList = document.getElementById("projects-list");
+        data.projects.forEach(project => {
+            const li = document.createElement("li");
+            li.textContent = project;
+            projectsList.appendChild(li);
+        });
+
+        const languagesList = document.getElementById("languages-list");
+        data.languages.forEach(language => {
+            const li = document.createElement ("li");
+            li.textContent = language;
+            languagesList.appendChild(li);
+        });
+
+        const interestsList = document.getElementById("interests-list");
+        data.interests.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            interestsList.appendChild(li);
+        });
+
+    })
+    .catch(error => {
+        console.error("Błąd ładowania JSON:", error);
+    });
+
+    
