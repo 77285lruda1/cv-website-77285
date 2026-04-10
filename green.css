@@ -287,7 +287,8 @@ input, textarea {
 }
 
 #local-storage-section {
-    margin-top: 40px;
+    margin-top: 50px;
+    margin-left: 20px;
 }
 
 #projectInput {
