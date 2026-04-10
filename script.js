@@ -1,3 +1,20 @@
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCtvlYlyA59204NCQvlrjduHHZKT1bCYV0",
+  authDomain: "project8-d164e.firebaseapp.com",
+  projectId: "project8-d164e",
+  storageBucket: "project8-d164e.firebasestorage.app",
+  messagingSenderId: "787165819287",
+  appId: "1:787165819287:web:7cc5b871e0961826b514d2",
+  measurementId: "G-C77TSNL40Q"
+};
+
+// Firebase init
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+
 // Przyciski i elementy DOM
 const themeBtn = document.getElementById("themeBtn");
 const toggleBtn = document.getElementById("toggleBtn");
@@ -77,9 +94,24 @@ form.addEventListener("submit", function(e) {
     }
 
     if (isValid) {
-        alert("Formularz wysłany poprawnie!");
-        form.reset();
+
+        db.collection("contacts").add({
+            firstName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+            message: message.value,
+            time: new Date()
+        })
+        .then(() => {
+            alert("Dane zapisane w Firebase ✔");
+            form.reset();
+        })
+        .catch((error) => {
+            alert("Błąd zapisu ❌");
+            console.error(error);
+        });
     }
+    
 });
 
 
