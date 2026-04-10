@@ -1,3 +1,4 @@
+// Przyciski i elementy DOM
 const themeBtn = document.getElementById("themeBtn");
 const toggleBtn = document.getElementById("toggleBtn");
 const projects = document.getElementById("projects");
@@ -7,6 +8,7 @@ let isGreen = true;
 
 projects.style.display = "none";
 
+// Zmiana motywu
 themeBtn.addEventListener("click", () => {
     if (isGreen) {
         themeStyle.href = "red.css";
@@ -17,6 +19,7 @@ themeBtn.addEventListener("click", () => {
     }
 });
 
+// Pokazywanie / ukrywanie projektów
 toggleBtn.addEventListener("click", () => {
     if (projects.style.display === "none" || projects.style.display === "") {
         projects.style.display = "block";
@@ -27,7 +30,7 @@ toggleBtn.addEventListener("click", () => {
     }
 });
 
-
+// Formularz kontaktowy
 const form = document.getElementById("contactForm");
 
 const firstName = document.getElementById("firstName");
@@ -35,11 +38,13 @@ const lastName = document.getElementById("lastName");
 const email = document.getElementById("email");
 const message = document.getElementById("message");
 
+// Elementy błędów
 const firstNameError = document.getElementById("firstNameError");
 const lastNameError = document.getElementById("lastNameError");
 const emailError = document.getElementById("emailError");
 const messageError = document.getElementById("messageError");
 
+// Walidacja formularza
 form.addEventListener("submit", function(e) {
     e.preventDefault();
 
@@ -89,6 +94,7 @@ fetch("data.json")
 
     .then(data => {
 
+        // umiejętności
         const skillsList = document.getElementById("skills-list");
         data.skills.forEach(skill => {
             const li = document.createElement("li");
@@ -96,6 +102,7 @@ fetch("data.json")
             skillsList.appendChild(li);
         });
 
+        // projekty
         const projectsList = document.getElementById("projects-list");
         data.projects.forEach(project => {
             const li = document.createElement("li");
@@ -103,6 +110,7 @@ fetch("data.json")
             projectsList.appendChild(li);
         });
 
+        // języki
         const languagesList = document.getElementById("languages-list");
         data.languages.forEach(language => {
             const li = document.createElement ("li");
@@ -110,6 +118,7 @@ fetch("data.json")
             languagesList.appendChild(li);
         });
 
+        // zainteresowania
         const interestsList = document.getElementById("interests-list");
         data.interests.forEach(item => {
             const li = document.createElement("li");
@@ -122,4 +131,85 @@ fetch("data.json")
         console.error("Błąd ładowania JSON:", error);
     });
 
-    
+
+// Local Storage
+const projectInput = document.getElementById("projectInput");
+const addProjectBtn = document.getElementById("addProjectBtn");
+const savedProjects = document.getElementById("savedProjects");
+
+
+let savedProjectsArray = [];
+
+// wczytanie danych z localStorage
+try {
+    const data = JSON.parse(localStorage.getItem("projects"));
+    if (Array.isArray(data)) {
+        savedProjectsArray = data;
+    }
+} catch (e) {
+    savedProjectsArray = [];
+}
+// zapis
+function saveToStorage() {
+    localStorage.setItem("projects", JSON.stringify(savedProjectsArray));
+}
+
+// render listy
+function renderProjects() {
+    savedProjects.innerHTML = "";
+
+    savedProjectsArray.forEach((project, index) => {
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+            ${project}
+            <button onclick="deleteProject(${index})">X</button>
+        `;
+
+        savedProjects.appendChild(li);
+    });
+}
+
+// dodanie projektu
+addProjectBtn.addEventListener("click", () => {
+    const value = projectInput.value.trim();
+
+    if (value === "") {
+        showMessage("❌ Pole jest puste", "error");
+        return;
+    }
+
+    savedProjectsArray.push(value);
+    saveToStorage();
+    renderProjects();
+
+    projectInput.value = "";
+
+    showMessage("✅ Projekt dodany!", "success");
+});
+
+
+// usuwanie projektu
+function deleteProject(index) {
+    savedProjectsArray.splice(index, 1);
+    saveToStorage();
+    renderProjects();
+
+    showMessage("Projekt usunięty ❌", "error");
+}
+
+
+// start aplikacji
+renderProjects();
+
+const messageBox = document.getElementById("messageBox");
+
+
+function showMessage(text, type) {
+    messageBox.textContent = text;
+    messageBox.className = type;
+
+    setTimeout(() => {
+        messageBox.textContent = "";
+    }, 2000);
+}
